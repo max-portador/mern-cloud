@@ -14,12 +14,19 @@ export interface UsersState {
 
 
 export enum UserActionsEnum {
-    SET_IS_AUTH= "SET_IS_AUTH"
+    LOGOUT = "LOGOUT",
+    SET_USER = "SET_USER",
 }
 
-export interface SetIsAuthAction {
-    type: UserActionsEnum.SET_IS_AUTH
+export interface LogoutAction {
+    type: UserActionsEnum.LOGOUT
 }
+
+export interface SetUserAction {
+    type: UserActionsEnum.SET_USER,
+    payload: IUser,
+}
+
 
 export type UserAction =
-    SetIsAuthAction
+    LogoutAction | SetUserAction

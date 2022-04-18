@@ -1,8 +1,11 @@
-import axios, {AxiosResponse} from "axios";
-import {IResponse} from "./types";
+import axios from "axios";
+import {ActionsTypes, IResponse, IUserResponse} from "./types";
+import { RootState} from "../store";
+import {ThunkAction} from "redux-thunk";
+import {setUser} from "../store/reducers/userReducer/action_creator";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:5000/api/',
+    baseURL: 'http://localhost:5555/api/',
 })
 
 export const registration = async (email: string, password: string): Promise<void> => {
@@ -17,3 +20,37 @@ export const registration = async (email: string, password: string): Promise<voi
         alert(e.response.data.message)
     }
 }
+
+export const login = (email: string, password: string): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
+    async (dispatch) => {
+        try {
+            const response = await instance.post<IUserResponse>('auth/login', {
+                email,
+                password
+            })
+
+            dispatch(setUser(response.data.user))
+            localStorage.setItem('token', response.data.token)
+            console.log(response.data)
+        }
+        catch (e:any){
+            alert(e)
+        }
+}
+
+export const auth = (): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
+    async (dispatch) => {
+        try {
+            const response = await instance.get<IUserResponse>('auth/auth', {
+                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+            })
+
+            dispatch(setUser(response.data.user))
+            localStorage.setItem('token', response.data.token)
+            console.log(response.data)
+        }
+        catch (e:any){
+            alert(e);
+            localStorage.removeItem('token')
+        }
+    }

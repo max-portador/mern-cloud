@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
 import './Authorization.css'
 import Input from "../../utils/Input/Input";
-import { registration } from '../../actions/user';
+import { registration } from '../../api/user';
 
 
 const Registaration: FC = () => {

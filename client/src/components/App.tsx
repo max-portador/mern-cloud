@@ -6,11 +6,12 @@ import Registration from "./Authorization/Registaration";
 import Login from "./Authorization/Login";
 import {useTypedSelector} from "../hooks/useTypedDispatch";
 import {useDispatch} from "react-redux";
-import {auth} from "../actions/user";
+import {auth} from "../api/user";
+import {AppDispatch} from "../store";
 
 function App() {
   const  { isAuth }  = useTypedSelector(state => state.user)
-  const dispatch = useDispatch<any>()
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
       dispatch(auth())

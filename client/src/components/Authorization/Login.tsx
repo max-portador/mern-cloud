@@ -2,13 +2,14 @@ import React, {Dispatch, FC, useState} from 'react';
 import './Authorization.css'
 import Input from "../../utils/Input/Input";
 import {useDispatch} from "react-redux";
-import { login } from '../../actions/user';
+import { login } from '../../api/user';
+import {AppDispatch} from "../../store";
 
 
 const Login: FC = () => {
     const [email, SetEmail] = useState<string>("")
     const [password, SetPassword] = useState<string>("")
-    const dispatch = useDispatch<any>()
+    const dispatch = useDispatch<AppDispatch>()
 
     return (
         <div className='authorization'>

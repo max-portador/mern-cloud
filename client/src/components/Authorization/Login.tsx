@@ -1,9 +1,9 @@
-import React, {Dispatch, FC, useState} from 'react';
-import './Authorization.css'
+import React, { FC, useState } from 'react';
+import { userAPI } from '../../api/api';
 import Input from "../../utils/Input/Input";
 import {useDispatch} from "react-redux";
-import { login } from '../../api/user';
-import {AppDispatch} from "../../store";
+import {AppDispatch} from "../../redux";
+import './Authorization.css'
 
 
 const Login: FC = () => {
@@ -26,9 +26,9 @@ const Login: FC = () => {
                 placeholder='Введите пароль...'/>
             <button
                 className="authorization__btn"
-                onClick={() => dispatch(login(email, password))}
+                onClick={() => dispatch(userAPI.login(email, password))}
             >
-                Зарегистрироваться
+                Войти
             </button>
         </div>
     );

@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
 import './Authorization.css'
 import Input from "../../utils/Input/Input";
-import { registration } from '../../api/user';
+import { userAPI } from '../../api/api';
 
 
 const Registaration: FC = () => {
@@ -23,9 +23,9 @@ const Registaration: FC = () => {
                 placeholder='Введите пароль...'/>
             <button
                 className="authorization__btn"
-                onClick={() => { registration(email, password) }}
+                onClick={() => { userAPI.registration(email, password) }}
             >
-                Войти
+                Зарегистрироваться
             </button>
         </div>
     );

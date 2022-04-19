@@ -4,7 +4,7 @@ import "./Navbar.css";
 import Logo from '../../assets/navbar-logo.svg'
 import {useTypedSelector} from "../../hooks/useTypedDispatch";
 import {useDispatch} from "react-redux";
-import {logout} from "../../store/reducers/userReducer/action_creator";
+import {logout} from "../../redux/reducers/userReducer/action_creator";
 
 const Navbar: FC = () => {
     const { isAuth }  = useTypedSelector(state => state.user)

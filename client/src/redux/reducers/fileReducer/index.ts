@@ -1,9 +1,10 @@
-import {FileAction, FileActionsEnum, FilesState} from "./types";
+import {FileAction, FileActionsEnum, FilesState, PopupDisplayEnum} from "./types";
 
 
 const initialState: FilesState = {
     files: [],
-    currentDir: ''
+    currentDir: null,
+    popupDisplay: PopupDisplayEnum.HIDE
 }
 
 export default function fileReducer(state: FilesState=initialState, action: FileAction): FilesState {
@@ -12,6 +13,10 @@ export default function fileReducer(state: FilesState=initialState, action: File
             return {...state, files: action.payload}
         case FileActionsEnum.SET_CURRENT_DIR:
             return {...state, currentDir: action.payload}
+        case FileActionsEnum.ADD_FILE:
+            return {...state, files: [ ...state.files, action.payload]}
+        case FileActionsEnum.SET_POPUP_DISPLAY:
+            return {...state, popupDisplay: action.payload}
         default:
             return state
     }

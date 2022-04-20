@@ -3,7 +3,7 @@ import { IResponse, IUserResponse} from "./types";
 import { ActionsTypes, RootState } from "../redux";
 import { ThunkAction } from "redux-thunk";
 import { setUser } from "../redux/reducers/userReducer/action_creator";
-import {setFilesAction} from "../redux/reducers/fileReducer/action_creators";
+import {addFile, setFiles} from "../redux/reducers/fileReducer/action_creators";
 import {IFile} from "../redux/reducers/fileReducer/types";
 
 const instance = axios.create({
@@ -59,17 +59,36 @@ export const userAPI = {
 }
 
 export const filesAPI = {
-    getFile: (dirId: string): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
+    getFile: (dirId: string | null): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
         async (dispatch) => {
             try {
                 const response = await instance.get<IFile[]>(
                     `files${(dirId ? '?parent=' + dirId : '')}`,
                     { headers: {Authorization: `Bearer ${localStorage.getItem('token')}` }})
 
-                dispatch(setFilesAction(response.data))
+                dispatch(setFiles(response.data))
             }
             catch (e) {
                 alert(e)
             }
-        }
+        },
+
+    createDir: (dirId: string | null, name: string): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
+        async (dispatch) => {
+            try {
+                const response = await instance.post<IFile>(`files`,
+                    {
+                        name,
+                        parent: dirId,
+                        type: 'dir'
+                    },
+                    { headers: {Authorization: `Bearer ${localStorage.getItem('token')}` }}
+                )
+
+                dispatch(addFile(response.data))
+            }
+            catch (e) {
+                alert(e)
+            }
+        },
 }

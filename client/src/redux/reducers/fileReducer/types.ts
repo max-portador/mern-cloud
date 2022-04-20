@@ -16,12 +16,20 @@ export interface IFile{
 
 export interface FilesState {
     files: IFile[],
-    currentDir: string,
+    currentDir: string | null,
+    popupDisplay: PopupDisplayEnum
+}
+
+export enum PopupDisplayEnum {
+    HIDE = 'none',
+    SHOW = 'flex'
 }
 
 export enum FileActionsEnum {
     SET_FILES = "SET_FILES",
     SET_CURRENT_DIR = "SET_CURRENT_DIR",
+    ADD_FILE = 'ADD_FILE',
+    SET_POPUP_DISPLAY = 'SET_POPUP_DISPLAY',
 }
 
 export interface SetFilesAction {
@@ -34,5 +42,18 @@ export interface SetCurrentDirAction {
     payload: string
 }
 
+export interface AddFileAction {
+    type: FileActionsEnum.ADD_FILE,
+    payload: IFile
+}
+
+export interface SetPopupDisplayAction {
+    type: FileActionsEnum.SET_POPUP_DISPLAY,
+    payload: PopupDisplayEnum
+}
+
 export type FileAction =
-    SetFilesAction | SetCurrentDirAction
+    SetFilesAction |
+    SetCurrentDirAction |
+    AddFileAction |
+    SetPopupDisplayAction

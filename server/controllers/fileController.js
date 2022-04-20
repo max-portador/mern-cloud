@@ -1,4 +1,6 @@
 const path = require('path');
+const config = require('config');
+const fs = require('fs');
 const fileService = require('../services/fileService');
 const File = require('../models/File');
 const User = require('../models/User');
@@ -37,6 +39,58 @@ class FileController {
         catch (e) {
             console.log(e)
             return res.status(500).json({ message: 'Can not get files'})
+        }
+    }
+
+    async uploadFile(req, res) {
+        try {
+            console.log(req.body)
+            const file = req.files.file;
+            const parent = await File.findOne({user: req.user.id, _id: req.body.parent});
+            const user = await User.findOne({user: req.user.id});
+
+            if (user.usedSpace + file.size > user.diskSPace) {
+                return res.status(400).json({message: 'There is no enough space on the disk!'});
+            }
+
+            user.usedSpace = user.usedSpace + file.size;
+            console.log('parent ' + parent)
+
+            let filePath;
+
+            if (parent) {
+                filePath = path.join(fileService.rootPath, config.get('filePath'), user._id.toString(), parent.path, file.name);
+            } else {
+                filePath = path.join(fileService.rootPath, config.get('filePath'), user._id.toString(), file.name);
+            }
+
+            if (fs.existsSync(filePath)) {
+                return res.status(400).json({message: 'File already exists'});
+            }
+
+            console.log('filePath: ' + filePath)
+
+            file.mv(filePath);
+
+            const type = file.name.split('.').pop();
+
+            const dbFile = new File({
+                name: file.name,
+                type,
+                size: file.size,
+                path: parent?.path,
+                parent: parent?._id,
+                user: user._id
+            })
+
+            await dbFile.save()
+            await user.save()
+
+            res.json(dbFile)
+        }
+        catch (e) {
+            console.log(e)
+            return res.status(500).json({message: 'Upload Error'})
         }
     }
 

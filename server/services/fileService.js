@@ -22,6 +22,8 @@ class FileService{
             }
         })
     }
+
+    rootPath = path.dirname( path.dirname(__dirname))
 }
 
 module.exports = new FileService()

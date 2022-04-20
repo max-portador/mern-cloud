@@ -1,7 +1,7 @@
 import {IUser} from "../userReducer/types";
 
 export interface IFile{
-    _id: number,
+    _id: string,
     name: string,
     type: string,
     accessLink?: string,
@@ -17,7 +17,8 @@ export interface IFile{
 export interface FilesState {
     files: IFile[],
     currentDir: string | null,
-    popupDisplay: PopupDisplayEnum
+    popupDisplay: PopupDisplayEnum,
+    dirStack: string[]
 }
 
 export enum PopupDisplayEnum {
@@ -30,6 +31,8 @@ export enum FileActionsEnum {
     SET_CURRENT_DIR = "SET_CURRENT_DIR",
     ADD_FILE = 'ADD_FILE',
     SET_POPUP_DISPLAY = 'SET_POPUP_DISPLAY',
+    PUSH_TO_STACK = 'PUSH_TO_STACK',
+    POP_FROM_STACK = 'POP_FROM_STACK'
 }
 
 export interface SetFilesAction {
@@ -52,8 +55,20 @@ export interface SetPopupDisplayAction {
     payload: PopupDisplayEnum
 }
 
+
+export interface PushToStackAction {
+    type: FileActionsEnum.PUSH_TO_STACK,
+    payload: string
+}
+export interface PopFromStackAction {
+    type: FileActionsEnum.POP_FROM_STACK,
+}
+
+
 export type FileAction =
     SetFilesAction |
     SetCurrentDirAction |
     AddFileAction |
-    SetPopupDisplayAction
+    SetPopupDisplayAction |
+    PushToStackAction |
+    PopFromStackAction

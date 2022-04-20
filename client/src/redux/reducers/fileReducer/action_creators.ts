@@ -1,7 +1,7 @@
 import {
     AddFileAction,
     FileActionsEnum,
-    IFile, PopupDisplayEnum,
+    IFile, PopFromStackAction, PopupDisplayEnum, PushToStackAction,
     SetCurrentDirAction,
     SetFilesAction,
     SetPopupDisplayAction
@@ -25,4 +25,13 @@ export const addFile = (file: IFile): AddFileAction => ({
 export const setPopupDisplay = (display: PopupDisplayEnum): SetPopupDisplayAction => ({
     type: FileActionsEnum.SET_POPUP_DISPLAY,
     payload: display,
+})
+
+export const pushToStack = (dir: string): PushToStackAction => ({
+    type: FileActionsEnum.PUSH_TO_STACK,
+    payload: dir,
+})
+
+export const popFromStack = (): PopFromStackAction => ({
+    type: FileActionsEnum.POP_FROM_STACK,
 })

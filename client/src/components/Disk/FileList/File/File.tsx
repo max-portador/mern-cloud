@@ -7,6 +7,7 @@ import {useTypedSelector} from "../../../../hooks/useTypedDispatch";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../../redux";
 import {pushToStack, setCurrentDir} from "../../../../redux/reducers/fileReducer/action_creators";
+import {filesAPI} from "../../../../api/api";
 
 type PropsType = {
     file: IFile;
@@ -23,13 +24,22 @@ const File: FC<PropsType> = ({file}) => {
         }
     }
 
+    function downloadHandler(event: React.MouseEvent<HTMLButtonElement>) {
+        event.stopPropagation();
+        filesAPI.downloadFile(file)
+    }
+
     return (
         <div className='file' onClick={ () => openDirHandler(file) } >
             <img src={file.type === 'dir' ? dirLogo : fileLogo} alt='' className='file__img'/>
             <div className="file__name">{file.name}</div>
             <div className="file__date">{file.date.slice(0, 10)}</div>
             <div className="file__size">{file.size}</div>
-
+            {file.type !== 'dir' &&
+                <button className="file__btn file__download"
+                        onClick={(e) => downloadHandler(e)}
+                >Скачать</button>}
+            <button className="file__btn file__delete">Удалить</button>
         </div>
     );
 };

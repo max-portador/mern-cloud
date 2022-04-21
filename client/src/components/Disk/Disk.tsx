@@ -13,19 +13,16 @@ const Disk:FC = ()  => {
     const dispatch = useDispatch<AppDispatch>()
     const { currentDir, dirStack } = useTypedSelector(state => state.files)
     const [dragEnter, setDragEnter] = useState(false)
-    useEffect(() => {
-        dispatch(filesAPI.getFile(currentDir))
-    } , [currentDir])
+
+    useEffect(() => { dispatch(filesAPI.getFile(currentDir)) } , [currentDir])
 
     function showPopup() {
         dispatch(setPopupDisplay(PopupDisplayEnum.SHOW))
     }
-    
     function backClickHandler() {
         const backDirId = dirStack.pop()
         dispatch(setCurrentDir(backDirId as string))
     }
-
     function fileUploadHandler(event: ChangeEvent<HTMLInputElement>) {
         const files = event.target.files as FileList
         for (let i = 0; i < files.length; i++) {
@@ -33,13 +30,11 @@ const Disk:FC = ()  => {
             dispatch(filesAPI.uploadFile(file, currentDir))
         }
     }
-
     function dragEnterHandler(event: React.DragEvent<HTMLDivElement>): void{
         event.preventDefault()
         event.stopPropagation()
         setDragEnter(true)
     }
-
     function dragLeaveHandler(event: React.DragEvent<HTMLDivElement>){
         event.preventDefault()
         event.stopPropagation()

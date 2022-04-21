@@ -6,6 +6,7 @@ import { setUser } from "../redux/reducers/userReducer/action_creator";
 import {addFile, setFiles} from "../redux/reducers/fileReducer/action_creators";
 import {IFile} from "../redux/reducers/fileReducer/types";
 import File from "../components/Disk/FileList/File/File";
+import file from "../components/Disk/FileList/File/File";
 
 const instance = axios.create({
     baseURL: 'http://localhost:5555/api/',
@@ -135,4 +136,21 @@ export const filesAPI = {
                 alert(e)
             }
         },
+
+    downloadFile: async (file: IFile): Promise<void>  => {
+        const response = await fetch(`http://localhost:5555/api/files/download?id=${file._id}`, {
+            headers: {Authorization: `Bearer ${localStorage.getItem('token')}` }
+        })
+
+        if (response.status === 200) {
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = file.name;
+            document.body.append(link);
+            link.click();
+            link.remove();
+        }
+    }
 }

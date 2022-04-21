@@ -37,7 +37,7 @@
   background-image: url("../../assets/img/plate.svg");
 }
 .drop-area {
-  width: 100%;
+  width: calc(100vw - 40px);
   height: calc(100vh - 50px - 40px);
   margin: 20px;
   border: dashed #566885 2px;
@@ -75,7 +75,7 @@
   justify-content: space-between;
 }
 .popup input {
-  margin: 20px 0px;
+  margin: 20px 0;
 }
 .loader {
   display: flex;

@@ -1,13 +1,14 @@
 import React, {FC} from 'react';
-import './FileList.css'
+import {CSSTransition, TransitionGroup} from "react-transition-group";
 import {useTypedSelector} from "../../../hooks/useTypedDispatch";
 import file from "./File/File";
 import File from "./File/File";
+import './FileList.css'
 
 const FileList:FC = () => {
 
     const files = useTypedSelector(state => state.files).files
-        .map( file =>  <File key={file._id} file={file}/>)
+
 
     return (
         <div className='filelist'>
@@ -16,7 +17,20 @@ const FileList:FC = () => {
                 <div className="filelist__date">Дата</div>
                 <div className="filelist__size">Размер</div>
             </div>
-            {files}
+            <TransitionGroup>
+            {files.map( file =>
+                <CSSTransition
+                    key={file._id}
+                    timeout={5000}
+                    classNames={'file'}
+                    exit={false}
+                >
+                <File file={file}/>
+                </CSSTransition>
+            )}
+
+
+            </TransitionGroup>
         </div>
     );
 };

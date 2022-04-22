@@ -8,6 +8,7 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../../redux";
 import { pushToStack, setCurrentDir} from "../../../../redux/reducers/fileReducer/action_creators";
 import {filesAPI} from "../../../../api/api";
+import sizeFormat from "../../../../utils/sizeFormat";
 
 type PropsType = {
     file: IFile;
@@ -39,7 +40,7 @@ const File: FC<PropsType> = ({file}) => {
             <img src={file.type === 'dir' ? dirLogo : fileLogo} alt='' className='file__img'/>
             <div className="file__name">{file.name}</div>
             <div className="file__date">{file.date.slice(0, 10)}</div>
-            <div className="file__size">{file.size}</div>
+            <div className="file__size">{sizeFormat(file.size)}</div>
             {file.type !== 'dir' &&
                 <button className="file__btn file__download"
                         onClick={(e) => downloadHandler(e)}

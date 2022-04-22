@@ -6,7 +6,7 @@ import fileLogo from '../../../../assets/img/file.svg'
 import {useTypedSelector} from "../../../../hooks/useTypedDispatch";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../../redux";
-import {pushToStack, setCurrentDir} from "../../../../redux/reducers/fileReducer/action_creators";
+import { pushToStack, setCurrentDir} from "../../../../redux/reducers/fileReducer/action_creators";
 import {filesAPI} from "../../../../api/api";
 
 type PropsType = {
@@ -29,6 +29,11 @@ const File: FC<PropsType> = ({file}) => {
         filesAPI.downloadFile(file)
     }
 
+    function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
+        e.stopPropagation()
+        dispatch( filesAPI.deleteFile(file) )
+    }
+
     return (
         <div className='file' onClick={ () => openDirHandler(file) } >
             <img src={file.type === 'dir' ? dirLogo : fileLogo} alt='' className='file__img'/>
@@ -39,7 +44,9 @@ const File: FC<PropsType> = ({file}) => {
                 <button className="file__btn file__download"
                         onClick={(e) => downloadHandler(e)}
                 >Скачать</button>}
-            <button className="file__btn file__delete">Удалить</button>
+            <button className="file__btn file__delete"
+                    onClick={(e) => deleteHandler(e)}
+            >Удалить</button>
         </div>
     );
 };

@@ -32,7 +32,7 @@ export enum FileActionsEnum {
     ADD_FILE = 'ADD_FILE',
     SET_POPUP_DISPLAY = 'SET_POPUP_DISPLAY',
     PUSH_TO_STACK = 'PUSH_TO_STACK',
-    POP_FROM_STACK = 'POP_FROM_STACK'
+    DELETE_FILE = 'DELETE_FILE',
 }
 
 export interface SetFilesAction {
@@ -55,13 +55,14 @@ export interface SetPopupDisplayAction {
     payload: PopupDisplayEnum
 }
 
-
 export interface PushToStackAction {
     type: FileActionsEnum.PUSH_TO_STACK,
     payload: string
 }
-export interface PopFromStackAction {
-    type: FileActionsEnum.POP_FROM_STACK,
+
+export interface DeleteFileAction {
+    type: FileActionsEnum.DELETE_FILE,
+    payload: IFile,
 }
 
 
@@ -71,4 +72,4 @@ export type FileAction =
     AddFileAction |
     SetPopupDisplayAction |
     PushToStackAction |
-    PopFromStackAction
+    DeleteFileAction

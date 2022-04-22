@@ -1,7 +1,7 @@
 import {
-    AddFileAction,
+    AddFileAction, DeleteFileAction,
     FileActionsEnum,
-    IFile, PopFromStackAction, PopupDisplayEnum, PushToStackAction,
+    IFile, PopupDisplayEnum, PushToStackAction,
     SetCurrentDirAction,
     SetFilesAction,
     SetPopupDisplayAction
@@ -32,6 +32,7 @@ export const pushToStack = (dir: string): PushToStackAction => ({
     payload: dir,
 })
 
-export const popFromStack = (): PopFromStackAction => ({
-    type: FileActionsEnum.POP_FROM_STACK,
+export const deleteFile = (file: IFile): DeleteFileAction => ({
+    type: FileActionsEnum.DELETE_FILE,
+    payload: file,
 })

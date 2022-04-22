@@ -3,7 +3,7 @@ import { IResponse, IUserResponse} from "./types";
 import { ActionsTypes, RootState } from "../redux";
 import { ThunkAction } from "redux-thunk";
 import { setUser } from "../redux/reducers/userReducer/action_creator";
-import {addFile, setFiles} from "../redux/reducers/fileReducer/action_creators";
+import {addFile, deleteFile, setFiles} from "../redux/reducers/fileReducer/action_creators";
 import {IFile} from "../redux/reducers/fileReducer/types";
 import File from "../components/Disk/FileList/File/File";
 import file from "../components/Disk/FileList/File/File";
@@ -134,6 +134,24 @@ export const filesAPI = {
             }
             catch (e) {
                 alert(e)
+            }
+        },
+
+    deleteFile: (file: IFile): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
+        async (dispatch) => {
+            try {
+
+                const response = await instance.delete<IResponse>(`files/delete?id=${file._id}`,
+                    {
+                        headers: {Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    },
+
+                )
+                dispatch(deleteFile(file))
+               alert(response.data.message)
+            }
+            catch (e: any) {
+                alert(e.response.data.message)
             }
         },
 

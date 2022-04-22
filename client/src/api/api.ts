@@ -62,11 +62,22 @@ export const userAPI = {
 }
 
 export const filesAPI = {
-    getFile: (dirId: string | null): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
+    getFile: (dirId: string | null, sort: string): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
         async (dispatch) => {
             try {
+                let url = 'files'
+                if (dirId) {
+                    url = `files?parent=${dirId}`
+                }
+                if (sort) {
+                    url = `files?sort=${sort}`
+                }
+                if (dirId && sort){
+                    url = `files?parent=${dirId}&sort=${sort}`
+                }
+
                 const response = await instance.get<IFile[]>(
-                    `files${(dirId ? '?parent=' + dirId : '')}`,
+                    url,
                     { headers: {Authorization: `Bearer ${localStorage.getItem('token')}` }})
 
                 dispatch(setFiles(response.data))

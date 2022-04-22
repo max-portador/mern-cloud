@@ -14,8 +14,9 @@ const Disk:FC = ()  => {
     const dispatch = useDispatch<AppDispatch>()
     const { currentDir, dirStack } = useTypedSelector(state => state.files)
     const [dragEnter, setDragEnter] = useState(false)
+    const [sort, setSort] = useState('type')
 
-    useEffect(() => { dispatch(filesAPI.getFile(currentDir)) } , [currentDir])
+    useEffect(() => { dispatch(filesAPI.getFile(currentDir, sort)) } , [currentDir, sort])
 
     function showPopup() {
         dispatch(setPopupDisplay(PopupDisplayEnum.SHOW))
@@ -68,6 +69,14 @@ const Disk:FC = ()  => {
                 <div className="disk__upload">
                     <label htmlFor="disk__upload-input" className="disk__upload-label">Загрузить файл</label>
                     <input multiple={true} onChange={(event) => { fileUploadHandler(event) }} type="file" id='disk__upload-input' className="disk__upload-input"/>
+                    <select
+                        onChange={(e: ChangeEvent<HTMLSelectElement>) => setSort(e.target.value)}
+                        value={sort}
+                        className="disk__select">
+                        <option value="name">По имени</option>
+                        <option value="type">По типу</option>
+                        <option value="date">По дате</option>
+                    </select>
                 </div>
             </div>
             <FileList/>

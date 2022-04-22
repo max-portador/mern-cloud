@@ -8,6 +8,7 @@ import FileList from "./FileList/FileList";
 import Popup from "./Popup";
 import {setCurrentDir, setPopupDisplay} from "../../redux/reducers/fileReducer/action_creators";
 import {PopupDisplayEnum} from "../../redux/reducers/fileReducer/types";
+import Uploader from "./Uploader/Uploader";
 
 const Disk:FC = ()  => {
     const dispatch = useDispatch<AppDispatch>()
@@ -71,6 +72,7 @@ const Disk:FC = ()  => {
             </div>
             <FileList/>
             <Popup/>
+            <Uploader/>
         </div>
             :
         <div className='drop-area'

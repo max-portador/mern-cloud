@@ -6,6 +6,8 @@ import fileReducer from "./reducers/fileReducer";
 import {Dispatch} from "react";
 import {FileAction} from "./reducers/fileReducer/types";
 import {UserAction} from "./reducers/userReducer/types";
+import uploaderReducer from "./reducers/uploadReducer";
+import {UploaderActions} from "./reducers/uploadReducer/types";
 
 const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose || compose;
 // const composeEnhancers = composeWithDevTools({
@@ -15,11 +17,15 @@ const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeo
 const rootReducer = combineReducers( {
     user: userReducer,
     files: fileReducer,
+    uploader: uploaderReducer
 })
 
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
+export type ActionsTypes =
+    FileAction |
+    UserAction |
+    UploaderActions
 
-export type ActionsTypes = FileAction | UserAction
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = Dispatch<ActionsTypes> & ThunkDispatch<RootState, void, ActionsTypes>

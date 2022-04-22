@@ -7,6 +7,7 @@ import {addFile, deleteFile, setFiles} from "../redux/reducers/fileReducer/actio
 import {IFile} from "../redux/reducers/fileReducer/types";
 import File from "../components/Disk/FileList/File/File";
 import file from "../components/Disk/FileList/File/File";
+import {addUploaderFile, changeUploaderFile, showUploader} from "../redux/reducers/uploadReducer/action-creators";
 
 const instance = axios.create({
     baseURL: 'http://localhost:5555/api/',
@@ -104,6 +105,10 @@ export const filesAPI = {
                     formData.append('parent', dirId)
                 }
 
+                const uploadFile = {name: file.name, progress: 0, _id: Date.now().toString()}
+                dispatch(showUploader())
+                dispatch(addUploaderFile(uploadFile))
+
                 const response = await instance.post<IFile>(`files/upload`,
                     formData,
                     {
@@ -120,10 +125,9 @@ export const filesAPI = {
                                 totalLength = Number(contentLength || decompressedContentLength);
                             }
 
-                            console.log('total', totalLength);
                             if (totalLength) {
-                                let progress = Math.round((event.loaded * 100) / totalLength)
-                                console.log(progress)
+                                uploadFile.progress = Math.round((event.loaded * 100) / totalLength)
+                                dispatch(changeUploaderFile(uploadFile))
                             }
                         }
                     },

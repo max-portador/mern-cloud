@@ -3,11 +3,21 @@
 }
 .disk__btns {
   display: flex;
+  justify-content: space-between;
+}
+.disk__right,
+.disk__left {
+  display: flex;
+  flex-direction: row;
 }
 .disk__create,
 .disk__back {
   margin-left: 10px;
   padding: 0 10px;
+  height: 100%;
+}
+.disk__upload {
+  align-self: center;
 }
 .disk__upload-input {
   display: none;
@@ -17,6 +27,7 @@
   padding: 5px 10px;
   cursor: pointer;
   margin-left: 10px;
+  align-self: center;
 }
 .disk__select {
   margin-left: 20px;
@@ -26,6 +37,7 @@
 }
 .disk__list,
 .disk__plate {
+  display: flex;
   height: 20px;
   width: 20px;
   border: none;
@@ -34,6 +46,8 @@
   background: no-repeat center center;
   background-size: contain;
   margin: 0 10px;
+  align-self: center;
+  justify-self: end;
 }
 .disk__list {
   background-image: url("../../assets/img/list.svg");

@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {IFile} from "../../../../redux/reducers/fileReducer/types";
+import {FileViesEnum, IFile} from "../../../../redux/reducers/fileReducer/types";
 import './File.css';
 import dirLogo from '../../../../assets/img/dir.svg'
 import fileLogo from '../../../../assets/img/file.svg'
@@ -16,7 +16,7 @@ type PropsType = {
 
 const File: FC<PropsType> = ({file}) => {
     const dispatch = useDispatch<AppDispatch>()
-    const { currentDir } = useTypedSelector(state => state.files)
+    const { currentDir, view } = useTypedSelector(state => state.files)
 
     function openDirHandler(file: IFile):void {
         if (file.type === 'dir') {
@@ -35,19 +35,40 @@ const File: FC<PropsType> = ({file}) => {
         dispatch( filesAPI.deleteFile(file) )
     }
 
+    if (view === FileViesEnum.LIST) {
+        return (
+            <div className='file' onClick={ () => openDirHandler(file) } >
+                <img src={file.type === 'dir' ? dirLogo : fileLogo} alt='' className='file__img'/>
+                <div className="file__name">{file.name}</div>
+                <div className="file__date">{file.date.slice(0, 10)}</div>
+                <div className="file__size">{sizeFormat(file.size)}</div>
+                {file.type !== 'dir' &&
+                    <button className="file__btn file__download"
+                            onClick={(e) => downloadHandler(e)}
+                    >Скачать</button>}
+                <button className="file__btn file__delete"
+                        onClick={(e) => deleteHandler(e)}
+                >Удалить</button>
+            </div>
+        );
+    }
+
+
     return (
-        <div className='file' onClick={ () => openDirHandler(file) } >
-            <img src={file.type === 'dir' ? dirLogo : fileLogo} alt='' className='file__img'/>
-            <div className="file__name">{file.name}</div>
-            <div className="file__date">{file.date.slice(0, 10)}</div>
-            <div className="file__size">{sizeFormat(file.size)}</div>
-            {file.type !== 'dir' &&
-                <button className="file__btn file__download"
-                        onClick={(e) => downloadHandler(e)}
-                >Скачать</button>}
-            <button className="file__btn file__delete"
-                    onClick={(e) => deleteHandler(e)}
-            >Удалить</button>
+        <div className='file-plate' onClick={ () => openDirHandler(file) } >
+            <img src={file.type === 'dir' ? dirLogo : fileLogo} alt='' className='file-plate__img'/>
+            <div className="file-plate__name">{file.name}</div>
+            <div className="file-plate__btns">
+                {file.type !== 'dir' &&
+                    <button className="file-plate__btn file__download"
+                            onClick={(e) => downloadHandler(e)}
+                    >Скачать</button>}
+                <button className="file-plate__btn file__delete"
+                        onClick={(e) => deleteHandler(e)}
+                >Удалить</button>
+            </div>
+
+
         </div>
     );
 };

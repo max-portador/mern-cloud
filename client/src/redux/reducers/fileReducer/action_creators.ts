@@ -1,10 +1,10 @@
 import {
     AddFileAction, DeleteFileAction,
-    FileActionsEnum,
+    FileActionsEnum, FileViesEnum,
     IFile, PopupDisplayEnum, PushToStackAction,
     SetCurrentDirAction,
     SetFilesAction,
-    SetPopupDisplayAction
+    SetPopupDisplayAction, SetViesAction
 } from "./types";
 
 export const setFiles = (files: IFile[]): SetFilesAction => ({
@@ -35,4 +35,9 @@ export const pushToStack = (dir: string): PushToStackAction => ({
 export const deleteFile = (file: IFile): DeleteFileAction => ({
     type: FileActionsEnum.DELETE_FILE,
     payload: file,
+})
+
+export const setView = (payload: FileViesEnum): SetViesAction => ({
+    type: FileActionsEnum.SET_VIEW,
+    payload,
 })

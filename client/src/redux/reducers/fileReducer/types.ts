@@ -13,12 +13,19 @@ export interface IFile{
     date: string
 }
 
+export enum FileViesEnum {
+    LIST = 'LIST',
+    PLATE = 'PLATE'
+}
+
+
 
 export interface FilesState {
     files: IFile[],
     currentDir: string | null,
     popupDisplay: PopupDisplayEnum,
-    dirStack: string[]
+    dirStack: string[],
+    view: FileViesEnum
 }
 
 export enum PopupDisplayEnum {
@@ -33,6 +40,7 @@ export enum FileActionsEnum {
     SET_POPUP_DISPLAY = 'SET_POPUP_DISPLAY',
     PUSH_TO_STACK = 'PUSH_TO_STACK',
     DELETE_FILE = 'DELETE_FILE',
+    SET_VIEW = 'SET_VIEW'
 }
 
 export interface SetFilesAction {
@@ -65,6 +73,11 @@ export interface DeleteFileAction {
     payload: IFile,
 }
 
+export interface SetViesAction {
+    type: FileActionsEnum.SET_VIEW,
+    payload: FileViesEnum,
+}
+
 
 export type FileAction =
     SetFilesAction |
@@ -72,4 +85,5 @@ export type FileAction =
     AddFileAction |
     SetPopupDisplayAction |
     PushToStackAction |
-    DeleteFileAction
+    DeleteFileAction |
+    SetViesAction

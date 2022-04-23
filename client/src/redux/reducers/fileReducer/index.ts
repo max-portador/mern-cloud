@@ -1,4 +1,4 @@
-import {FileAction, FileActionsEnum, FilesState, PopupDisplayEnum} from "./types";
+import {FileAction, FileActionsEnum, FilesState, FileViesEnum, PopupDisplayEnum} from "./types";
 
 
 const initialState: FilesState = {
@@ -6,6 +6,7 @@ const initialState: FilesState = {
     currentDir: null,
     popupDisplay: PopupDisplayEnum.HIDE,
     dirStack: [],
+    view: FileViesEnum.LIST
 }
 
 export default function fileReducer(state: FilesState=initialState, action: FileAction): FilesState {
@@ -27,6 +28,9 @@ export default function fileReducer(state: FilesState=initialState, action: File
 
         case FileActionsEnum.DELETE_FILE:
             return {...state, files: state.files.filter(file => file._id !== action.payload._id)}
+
+        case FileActionsEnum.SET_VIEW:
+            return {...state, view: action.payload}
 
         default:
             return state

@@ -2,12 +2,12 @@ import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../redux";
 import {useTypedSelector} from "../../hooks/useTypedDispatch";
-import { filesAPI } from "../../api/api";
+import {filesAPI} from "../../api/api";
 import './Disc.css'
 import FileList from "./FileList/FileList";
 import Popup from "./Popup";
-import {setCurrentDir, setPopupDisplay} from "../../redux/reducers/fileReducer/action_creators";
-import {PopupDisplayEnum} from "../../redux/reducers/fileReducer/types";
+import {setCurrentDir, setPopupDisplay, setView} from "../../redux/reducers/fileReducer/action_creators";
+import {FileViesEnum, PopupDisplayEnum} from "../../redux/reducers/fileReducer/types";
 import Uploader from "./Uploader/Uploader";
 
 const Disk:FC = ()  => {
@@ -71,14 +71,20 @@ const Disk:FC = ()  => {
              onDragEnter={dragEnterHandler}
              onDragLeave={dragLeaveHandler}
              onDragOver={dragEnterHandler}
-
         >
             <div className="disk__btns">
-                <button className="disk__back" onClick={() => backClickHandler()} >Назад</button>
-                <button className="disk__create" onClick={() => showPopup()} >Создать папку</button>
-                <div className="disk__upload">
-                    <label htmlFor="disk__upload-input" className="disk__upload-label">Загрузить файл</label>
-                    <input multiple={true} onChange={(event) => { fileUploadHandler(event) }} type="file" id='disk__upload-input' className="disk__upload-input"/>
+                <div className="disk__left">
+                    <button className="disk__back" onClick={() => backClickHandler()} >Назад</button>
+                    <button className="disk__create" onClick={() => showPopup()} >Создать папку</button>
+                    <div className="disk__upload">
+                        <label htmlFor="disk__upload-input" className="disk__upload-label">Загрузить файл</label>
+                        <input multiple={true} onChange={(event) => { fileUploadHandler(event) }}
+                               type="file"
+                               id='disk__upload-input'
+                               className="disk__upload-input"/>
+                    </div>
+                </div>
+                <div className="disk__right">
                     <select
                         onChange={(e: ChangeEvent<HTMLSelectElement>) => setSort(e.target.value)}
                         value={sort}
@@ -87,6 +93,8 @@ const Disk:FC = ()  => {
                         <option value="type">По типу</option>
                         <option value="date">По дате</option>
                     </select>
+                    <button className="disk__plate" onClick={() => dispatch(setView(FileViesEnum.PLATE))}/>
+                    <button className="disk__list" onClick={() => dispatch(setView(FileViesEnum.LIST))}/>
                 </div>
             </div>
             <FileList/>

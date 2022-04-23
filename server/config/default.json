@@ -2,5 +2,6 @@
   "serverPort": 5555,
   "dbUrl": "mongodb+srv://Ignat:AprilOwlSaladNote@cluster0.2xhdr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   "secretKey": "mern-secret-key",
-  "filePath": "server/files"
+  "filePath": "server/files",
+  "staticPath": "server/static"
 }

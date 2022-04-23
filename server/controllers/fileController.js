@@ -1,6 +1,7 @@
 const path = require('path');
 const config = require('config');
 const fs = require('fs');
+const uuid = require('uuid')
 const fileService = require('../services/fileService');
 const File = require('../models/File');
 const User = require('../models/User');
@@ -161,6 +162,45 @@ class FileController {
         catch (e) {
             console.log(e)
             return res.status(400).json({message: 'Search Error'})
+        }
+    }
+
+    async uploadAvatar(req, res){
+        try {
+            const file = req.files.file;
+            const user = await User.findById(req.user.id)
+            const avatarName = uuid.v4() + '.jpg'
+            file.mv(path.join(
+                fileService.rootPath,
+                config.get('staticPath'),
+                avatarName))
+
+            user.avatar = avatarName;
+            await user.save()
+            return res.json(user)
+        }
+        catch (e) {
+            console.log(e)
+            return res.status(400).json({message: 'Upload Avatar Error'})
+        }
+    }
+
+    async deleteAvatar(req, res){
+        try {
+            const user = await User.findById(req.user.id)
+            const avatarName = path.join(
+                fileService.rootPath,
+                config.get('staticPath'),
+                user.avatar);
+
+            fs.unlinkSync(avatarName)
+            user.avatar = null
+            await user.save()
+            return res.json(user)
+        }
+        catch (e) {
+            console.log(e)
+            return res.status(400).json({message: 'Delete Avatar Error'})
         }
     }
 }

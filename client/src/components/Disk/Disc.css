@@ -4,8 +4,10 @@
 .disk__btns {
   display: flex;
 }
-.disk__create {
+.disk__create,
+.disk__back {
   margin-left: 10px;
+  padding: 0 10px;
 }
 .disk__upload-input {
   display: none;
@@ -17,7 +19,10 @@
   margin-left: 10px;
 }
 .disk__select {
-  margin-left: auto;
+  margin-left: 20px;
+  height: 2rem;
+  padding-left: 10px;
+  border-radius: 5%;
 }
 .disk__list,
 .disk__plate {

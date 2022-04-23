@@ -8,6 +8,13 @@ import './FileList.css'
 const FileList:FC = () => {
 
     const files = useTypedSelector(state => state.files).files
+    const { isLoading } = useTypedSelector(state => state.app)
+
+    if (!files.length) {
+        return (<React.Fragment>
+            <div className="loader">Файлы не найдены</div>
+        </React.Fragment>)
+    }
 
 
     return (
@@ -18,7 +25,7 @@ const FileList:FC = () => {
                 <div className="filelist__size">Размер</div>
             </div>
             <TransitionGroup>
-            {files.map( file =>
+            {!isLoading &&  files.map( file =>
                 <CSSTransition
                     key={file._id}
                     timeout={5000}

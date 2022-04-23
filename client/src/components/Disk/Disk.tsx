@@ -12,9 +12,10 @@ import Uploader from "./Uploader/Uploader";
 
 const Disk:FC = ()  => {
     const dispatch = useDispatch<AppDispatch>()
-    const { currentDir, dirStack } = useTypedSelector(state => state.files)
-    const [dragEnter, setDragEnter] = useState(false)
-    const [sort, setSort] = useState('type')
+    const { currentDir, dirStack } = useTypedSelector(state => state.files);
+    const { isLoading } = useTypedSelector(state => state.app);
+    const [dragEnter, setDragEnter] = useState(false);
+    const [sort, setSort] = useState('type');
 
     useEffect(() => { dispatch(filesAPI.getFile(currentDir, sort)) } , [currentDir, sort])
 
@@ -52,6 +53,15 @@ const Disk:FC = ()  => {
         }
 
         setDragEnter(false)
+    }
+
+    if (isLoading) {
+        return ( <React.Fragment>
+                <div className="loader">
+                    <div className="lds-dual-ring"/>
+                </div>
+            </React.Fragment>
+        )
     }
 
 

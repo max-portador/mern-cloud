@@ -8,6 +8,7 @@ import {IFile} from "../redux/reducers/fileReducer/types";
 import File from "../components/Disk/FileList/File/File";
 import file from "../components/Disk/FileList/File/File";
 import {addUploaderFile, changeUploaderFile, showUploader} from "../redux/reducers/uploadReducer/action-creators";
+import {hideLoader, showLoader} from "../redux/reducers/appReducer/action-creators";
 
 const instance = axios.create({
     baseURL: 'http://localhost:5555/api/',
@@ -64,6 +65,7 @@ export const userAPI = {
 export const filesAPI = {
     getFile: (dirId: string | null, sort: string): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
         async (dispatch) => {
+            dispatch(showLoader())
             try {
                 let url = 'files'
                 if (dirId) {
@@ -84,6 +86,9 @@ export const filesAPI = {
             }
             catch (e) {
                 alert(e)
+            }
+            finally {
+                dispatch(hideLoader())
             }
         },
 
@@ -185,5 +190,23 @@ export const filesAPI = {
             link.click();
             link.remove();
         }
-    }
+    },
+
+    search: (searchName: string): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
+        async (dispatch) => {
+            dispatch(showLoader())
+
+            try {
+                const response = await instance.get<IFile[]>(
+                    `files/search?search=${searchName}`,
+                    { headers: {Authorization: `Bearer ${localStorage.getItem('token')}` }})
+                dispatch(setFiles(response.data))
+            }
+            catch (e) {
+                alert(e)
+            }
+            finally {
+                dispatch(hideLoader())
+            }
+        },
 }

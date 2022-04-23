@@ -150,6 +150,19 @@ class FileController {
             return res.status(500).json({message: 'Dir is not empty'})
         }
     }
+
+    async searchFile(req, res){
+        try{
+            const searchName = req.query.search;
+            let files = await File.find({user: req.user.id});
+            files = files.filter( file => file.name.toLowerCase().includes(searchName.toLowerCase()))
+            return res.json(files)
+        }
+        catch (e) {
+            console.log(e)
+            return res.status(400).json({message: 'Search Error'})
+        }
+    }
 }
 
 module.exports = new FileController()

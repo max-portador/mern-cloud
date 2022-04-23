@@ -17,6 +17,10 @@
 .navbar__logo {
   height: 45px;
 }
+.navbar__search {
+  width: 300px;
+  margin: 0 30px;
+}
 .container {
   width: 1140px;
   display: flex;

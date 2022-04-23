@@ -1,4 +1,4 @@
-import {combineReducers, createStore, applyMiddleware, compose} from 'redux';
+import {combineReducers, createStore, applyMiddleware} from 'redux';
 import thunk, {ThunkDispatch} from "redux-thunk";
 import { composeWithDevTools } from '@redux-devtools/extension';
 import userReducer from "./reducers/userReducer";
@@ -8,22 +8,21 @@ import {FileAction} from "./reducers/fileReducer/types";
 import {UserAction} from "./reducers/userReducer/types";
 import uploaderReducer from "./reducers/uploadReducer";
 import {UploaderActions} from "./reducers/uploadReducer/types";
-
-const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose || compose;
-// const composeEnhancers = composeWithDevTools({
-//     // Specify here name, actionsDenylist, actionsCreators and other options
-// });
+import {AppReducerActions} from "./reducers/appReducer/types";
+import appReducer from "./reducers/appReducer";
 
 const rootReducer = combineReducers( {
     user: userReducer,
     files: fileReducer,
-    uploader: uploaderReducer
+    uploader: uploaderReducer,
+    app: appReducer
 })
 
 export type ActionsTypes =
     FileAction |
     UserAction |
-    UploaderActions
+    UploaderActions |
+    AppReducerActions
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
 

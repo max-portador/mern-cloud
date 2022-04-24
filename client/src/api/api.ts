@@ -9,9 +9,11 @@ import File from "../components/Disk/FileList/File/File";
 import file from "../components/Disk/FileList/File/File";
 import {addUploaderFile, changeUploaderFile, showUploader} from "../redux/reducers/uploadReducer/action-creators";
 import {hideLoader, showLoader} from "../redux/reducers/appReducer/action-creators";
+import {API_URL} from "../config";
+import {IUser} from "../redux/reducers/userReducer/types";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:5555/api/',
+    baseURL: `${API_URL}api/`,
 })
 
 export const userAPI = {
@@ -176,7 +178,7 @@ export const filesAPI = {
         },
 
     downloadFile: async (file: IFile): Promise<void>  => {
-        const response = await fetch(`http://localhost:5555/api/files/download?id=${file._id}`, {
+        const response = await fetch(`${API_URL}api/files/download?id=${file._id}`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('token')}` }
         })
 
@@ -209,4 +211,35 @@ export const filesAPI = {
                 dispatch(hideLoader())
             }
         },
+
+    uploadAvatar: (file: File): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
+        async (dispatch) => {
+            try {
+                const formData = new FormData()
+                formData.append('file', file)
+                const response = await instance.post<IUser>('files/avatar',
+                    formData,
+                    { headers : { Authorization : `Bearer ${localStorage.getItem('token')}`}}
+                )
+
+                dispatch(setUser(response.data))
+            }
+            catch (e) {
+                console.log(e)
+            }
+        },
+
+    deleteAvatar: (): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> =>
+        async (dispatch) => {
+            try {
+                const response = await instance.delete<IUser>('files/avatar',
+                    { headers : { Authorization : `Bearer ${localStorage.getItem('token')}`}}
+                )
+                dispatch(setUser(response.data))
+                console.log(response.data)
+            }
+            catch (e) {
+                console.log(e)
+            }
+        }
 }

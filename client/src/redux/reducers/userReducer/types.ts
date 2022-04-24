@@ -8,7 +8,7 @@ export interface IUser {
 }
 
 export interface UsersState {
-    currentUser: IUser | {},
+    currentUser: IUser,
     isAuth: boolean
 }
 

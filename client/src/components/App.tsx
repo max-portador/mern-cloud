@@ -9,6 +9,7 @@ import {useDispatch} from "react-redux";
 import { userAPI } from "../api/api";
 import {AppDispatch} from "../redux";
 import Disk from "./Disk/Disk";
+import Profile from "./Profile/Profile";
 
 function App() {
   const  { isAuth }  = useTypedSelector(state => state.user)
@@ -31,6 +32,7 @@ function App() {
                   :
                   <Routes>
                       <Route path='/disk' element={<Disk/>}/>
+                      <Route path='/profile' element={<Profile/>} />
                       <Route path="*" element={<Navigate to="/disk" />}/>
                   </Routes>
               }

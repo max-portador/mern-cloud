@@ -1,8 +1,8 @@
-import {UserAction, UserActionsEnum, UsersState} from "./types";
+import {IUser, UserAction, UserActionsEnum, UsersState} from "./types";
 
 
 const initialState: UsersState = {
-    currentUser: {},
+    currentUser: {} as IUser,
     isAuth: false
 }
 
@@ -17,7 +17,7 @@ export default function userReducer(state: UsersState=initialState, action: User
         case UserActionsEnum.LOGOUT:
             return {
                 ...state,
-                currentUser: {},
+                currentUser: {} as IUser,
                 isAuth: false,
             }
         default:

@@ -2,6 +2,7 @@ import React, {ChangeEvent, FC} from 'react';
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../redux";
 import {filesAPI} from "../../api/api";
+import './Profile.css'
 
 const Profile:FC = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -13,9 +14,13 @@ const Profile:FC = () => {
     }
 
     return (
-        <div>
-            <button onClick={() => dispatch(filesAPI.deleteAvatar())} >Удалить аватар</button>
-            <input accept='image/*' type="file" placeholder='Загрузить аватар' onChange={(e) => changeHandler(e)}/>
+        <div className='profile'>
+            <button onClick={() => dispatch(filesAPI.deleteAvatar())} className='profile__btn' >Удалить аватар</button>
+            <input accept='image/*'
+                   type="file"
+                   placeholder='Загрузить аватар'
+                   className='profile__input'
+                   onChange={(e) => changeHandler(e)}/>
         </div>
     );
 };
